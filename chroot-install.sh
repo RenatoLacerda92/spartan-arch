@@ -14,7 +14,7 @@ then
     wget https://www.archlinux.org/mirrorlist/?country=BR&country=US&protocol=http&protocol=https&ip_version=4 -O /etc/pacman.d/mirrorlist.unranked
     echo 'Setting up mirrors'
     sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.unranked
-    rankmirrors -n 6 /etc/pacman.d/mirrorlist.unranked > /etc/pacman.d/mirrorlist
+    rankmirrors -n 12 /etc/pacman.d/mirrorlist.unranked > /etc/pacman.d/mirrorlist
 else
     echo 'Skipping mirror ranking because fast'
 fi
