@@ -16,19 +16,19 @@ else
     password=$2
 fi
 
-if [ -z "$3" ]
-then
-    echo "Do you want to skip rankmirrors (faster upfront)? [y/N] "
-    read response
-    if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
-    then
-        fast=1
-    else
-        fast=0
-    fi
-else
-    fast=$3
-fi
+#if [ -z "$3" ]
+#then
+    #echo "Do you want to skip rankmirrors (faster upfront)? [y/N] "
+    #read response
+    #if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+    #then
+        #fast=1
+    #else
+        #fast=0
+    #fi
+#else
+    #fast=$3
+#fi
 
 # set time
 timedatectl set-ntp true
@@ -45,17 +45,17 @@ pacman -Sy
 pacman -S --noconfirm pacman-contrib
 
 # Rank mirror first to speed up pacstrap download
-if [ "$fast" -eq "1"]
-then
-    echo 'Downloading list of BR and US mirrors'
-    cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-    wget "https://www.archlinux.org/mirrorlist/?country=BR&country=US&protocol=http&protocol=https&ip_version=4" -O /etc/pacman.d/mirrorlist.unranked
-    echo 'Setting up mirrors'
-    sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.unranked
-    rankmirrors -n 12 /etc/pacman.d/mirrorlist.unranked > /etc/pacman.d/mirrorlist
-else
-    echo 'Skipping mirror ranking because fast'
-fi
+#if [ "$fast" -eq "1"]
+#then
+echo 'Downloading list of BR and US mirrors'
+cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+wget "https://www.archlinux.org/mirrorlist/?country=BR&country=US&protocol=http&protocol=https&ip_version=4" -O /etc/pacman.d/mirrorlist.unranked
+echo 'Setting up mirrors'
+sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.unranked
+rankmirrors -n 12 /etc/pacman.d/mirrorlist.unranked > /etc/pacman.d/mirrorlist
+#else
+    #echo 'Skipping mirror ranking because fast'
+#fi
 
 # pacstrap
 pacstrap /mnt base
