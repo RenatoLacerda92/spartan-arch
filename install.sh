@@ -40,6 +40,23 @@ mkswap /dev/sda2
 swapon /dev/sda2
 mount /dev/sda1 /mnt
 
+#update pacman first, and install pacman-contrib for rankmirrors
+pacman -Sy
+pacman -S --no-confirm pacman-contrib
+
+# Rank mirror first to speed up pacstrap download
+if [ "$fast" -eq "1"]
+then
+    echo 'Downloading list of BR and US mirrors'
+    cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
+    wget https://www.archlinux.org/mirrorlist/?country=BR&country=US&protocol=http&protocol=https&ip_version=4 -O /etc/pacman.d/mirrorlist.unranked
+    echo 'Setting up mirrors'
+    sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.unranked
+    rankmirrors -n 12 /etc/pacman.d/mirrorlist.unranked > /etc/pacman.d/mirrorlist
+else
+    echo 'Skipping mirror ranking because fast'
+fi
+
 # pacstrap
 pacstrap /mnt base
 

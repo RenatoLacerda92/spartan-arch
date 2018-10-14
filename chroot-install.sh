@@ -6,18 +6,6 @@ user=$1
 password=$2
 fast=$3
 
-# setup mirrors
-if [ "$fast" -eq "1"]
-then
-    echo 'Downloading list of BR and US mirrors'
-    cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-    wget https://www.archlinux.org/mirrorlist/?country=BR&country=US&protocol=http&protocol=https&ip_version=4 -O /etc/pacman.d/mirrorlist.unranked
-    echo 'Setting up mirrors'
-    sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.unranked
-    rankmirrors -n 12 /etc/pacman.d/mirrorlist.unranked > /etc/pacman.d/mirrorlist
-else
-    echo 'Skipping mirror ranking because fast'
-fi
 
 # setup timezone
 echo 'Setting up timezone'
