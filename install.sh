@@ -45,7 +45,7 @@ pacman -Sy
 pacman -S --noconfirm pacman-contrib
 
 # Rank mirror first to speed up pacstrap download
-if [ "$fast" -eq "0"]
+if [ "$fast" -eq "1"]
 then
     echo 'Downloading list of BR and US mirrors'
     cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
