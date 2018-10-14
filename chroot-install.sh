@@ -9,10 +9,12 @@ fast=$3
 # setup mirrors
 if [ "$fast" -eq "1"]
 then
-    echo 'Setting up mirrors'
+    echo 'Downloading list of BR and US mirrors'
     cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
-    sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.backup
-    rankmirrors -n 6 /etc/pacman.d/mirrorlist.backup > /etc/pacman.d/mirrorlist
+    wget https://www.archlinux.org/mirrorlist/?country=BR&country=US&protocol=http&protocol=https&ip_version=4 -O /etc/pacman.d/mirrorlist.unranked
+    echo 'Setting up mirrors'
+    sed -i 's/^#Server/Server/' /etc/pacman.d/mirrorlist.unranked
+    rankmirrors -n 6 /etc/pacman.d/mirrorlist.unranked > /etc/pacman.d/mirrorlist
 else
     echo 'Skipping mirror ranking because fast'
 fi
@@ -86,7 +88,7 @@ echo '%wheel ALL=(ALL) ALL' >> /etc/sudoers
 systemctl enable ntpdate.service
 
 # preparing post install
-wget https://raw.githubusercontent.com/abrochard/spartan-arch/master/post-install.sh -O /home/$user/post-install.sh
+wget https://raw.githubusercontent.com/RenatoLacerda92/spartan-arch/master/post-install.sh -O /home/$user/post-install.sh
 chown $user:$user /home/$user/post-install.sh
 
 echo 'Done'
