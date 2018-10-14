@@ -40,12 +40,12 @@ mkswap /dev/sda2
 swapon /dev/sda2
 mount /dev/sda1 /mnt
 
-#update pacman first, and install pacman-contrib for rankmirrors
+#update pacman database first, and install pacman-contrib for rankmirrors
 pacman -Sy
-pacman -S --no-confirm pacman-contrib
+pacman -S --noconfirm pacman-contrib
 
 # Rank mirror first to speed up pacstrap download
-if [ "$fast" -eq "1"]
+if [ "$fast" -eq "0"]
 then
     echo 'Downloading list of BR and US mirrors'
     cp /etc/pacman.d/mirrorlist /etc/pacman.d/mirrorlist.backup
