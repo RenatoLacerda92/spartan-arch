@@ -27,7 +27,7 @@ then
         Xorg=0
     fi
 else
-    fast=$3
+    Xorg=$3
 fi
 
 # set time
