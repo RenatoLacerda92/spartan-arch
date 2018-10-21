@@ -16,19 +16,19 @@ else
     password=$2
 fi
 
-#if [ -z "$3" ]
-#then
-    #echo "Do you want to skip rankmirrors (faster upfront)? [y/N] "
-    #read response
-    #if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
-    #then
-        #fast=1
-    #else
-        #fast=0
-    #fi
-#else
-    #fast=$3
-#fi
+if [ -z "$3" ]
+then
+    echo "Do you want to install Xorg? [Y/n] "
+    read response
+    if [[ "$response" =~ ^([yY][eE][sS]|[yY])+$ ]]
+    then
+        Xorg=1
+    else
+        Xorg=0
+    fi
+else
+    fast=$3
+fi
 
 # set time
 timedatectl set-ntp true
@@ -67,7 +67,7 @@ genfstab -U /mnt >> /mnt/etc/fstab
 
 # chroot
 wget https://raw.githubusercontent.com/RenatoLacerda92/spartan-arch/master/chroot-install.sh -O /mnt/chroot-install.sh
-arch-chroot /mnt /bin/bash ./chroot-install.sh $user $password $fast
+arch-chroot /mnt /bin/bash ./chroot-install.sh $user $password $Xorg
 
 # reboot
 umount /mnt

@@ -4,8 +4,7 @@
 
 user=$1
 password=$2
-fast=$3
-
+Xorg=$3
 
 # setup timezone
 echo 'Setting up timezone'
@@ -35,8 +34,11 @@ grub-install --target=i386-pc /dev/sda
 grub-mkconfig -o /boot/grub/grub.cfg
 
 # install Xorg
+if [ "$Xorg" -ez "1"]
+then
 echo 'Installing Xorg'
 pacman -S --noconfirm xorg xorg-xinit xterm
+fi
 
 # install virtualbox guest modules
 echo 'Installing VB-guest-modules'
